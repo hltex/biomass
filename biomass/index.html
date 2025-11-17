@@ -3,7 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生物质蒸汽项目介绍</title>
+    <title>Biomass Project</title>
+    <style>
+        /* 语言切换按钮 */
+        .lang-switch {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .lang-switch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: #f0f0f0;
+        }
+    </style>
     <style>
         * {
             margin: 0;
@@ -15,6 +58,7 @@
             font-family: 'Microsoft YaHei', Arial, sans-serif;
             overflow-x: hidden;
             background: #f5f5f5;
+            will-change: scroll-position;
         }
 
         section {
@@ -25,6 +69,7 @@
             padding: 60px 20px;
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         /* 背景粒子效果 */
@@ -36,13 +81,15 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
+            will-change: transform;
         }
 
         .particle {
             position: absolute;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            animation: float 20s infinite;
+            animation: floatParticle linear infinite;
+            will-change: transform;
         }
 
         .container {
@@ -122,9 +169,10 @@
         .compare-box {
             padding: 30px;
             border-radius: 15px;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.4s ease-out;
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         .compare-box::before {
@@ -136,6 +184,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: left 0.5s;
+            will-change: left;
         }
 
         .compare-box:hover::before {
@@ -143,7 +192,7 @@
         }
 
         .compare-box:hover {
-            transform: translateY(-10px) scale(1.05);
+            transform: translateY(-10px) scale(1.03);
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
@@ -217,9 +266,10 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             text-align: center;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.4s ease-out;
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         .flow-step::after {
@@ -232,7 +282,8 @@
             border-radius: 50%;
             background: rgba(151, 188, 98, 0.1);
             transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+            transition: width 0.5s ease-out, height 0.5s ease-out;
+            will-change: width, height;
         }
 
         .flow-step:hover::after {
@@ -241,21 +292,22 @@
         }
 
         .flow-step:hover {
-            transform: scale(1.1) rotate(2deg);
-            box-shadow: 0 15px 35px rgba(44,95,45,0.4);
+            transform: scale(1.08);
+            box-shadow: 0 15px 35px rgba(44,95,45,0.3);
         }
 
         .step-icon {
             font-size: 3em;
             margin-bottom: 15px;
             display: inline-block;
-            transition: all 0.5s;
+            transition: transform 0.4s ease-out;
             position: relative;
             z-index: 1;
+            will-change: transform;
         }
 
         .flow-step:hover .step-icon {
-            transform: scale(1.3) rotateY(360deg);
+            transform: scale(1.2) rotateY(180deg);
         }
 
         .flow-step h3 {
@@ -308,20 +360,26 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            align-items: stretch;
         }
 
         .stat-card {
             background: rgba(255,255,255,0.1);
-            padding: 40px;
-            border-radius: 15px;
+            padding: 50px 40px;
+            border-radius: 20px;
             text-align: center;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255,255,255,0.2);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.4s ease-out;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
         }
 
         .stat-card::before {
@@ -333,7 +391,8 @@
             height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             transform: scale(0);
-            transition: transform 0.6s;
+            transition: transform 0.5s ease-out;
+            will-change: transform;
         }
 
         .stat-card:hover::before {
@@ -342,19 +401,43 @@
 
         .stat-card:hover {
             background: rgba(255,255,255,0.2);
-            transform: translateY(-15px) scale(1.05);
+            transform: translateY(-10px) scale(1.03);
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
+        /* 图标式数据展示 */
+        .stat-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(151, 188, 98, 0.5));
+            transition: all 0.4s ease-out;
+            will-change: transform;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.15) rotateY(180deg);
+            filter: drop-shadow(0 8px 20px rgba(151, 188, 98, 0.8));
+        }
+
+        .stat-content {
+            position: relative;
+            z-index: 1;
+        }
+
         .stat-number {
-            font-size: 3em;
+            font-size: 3.5em;
             font-weight: bold;
             color: #97bc62;
             margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-            display: inline-block;
-            animation: countUp 2s ease-out;
+            display: block;
+            text-shadow: 0 3px 10px rgba(151, 188, 98, 0.3);
+        }
+
+        .stat-unit {
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.8);
+            display: block;
+            margin-bottom: 15px;
         }
 
         .stat-card:hover .stat-number {
@@ -362,10 +445,18 @@
         }
 
         .stat-label {
-            font-size: 1.2em;
+            font-size: 1.1em;
             opacity: 0.9;
             position: relative;
             z-index: 1;
+            line-height: 1.5;
+        }
+
+        .stat-desc {
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.6);
+            margin-top: 10px;
+            line-height: 1.4;
         }
 
         /* 社会价值 */
@@ -391,9 +482,10 @@
             background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
             border-radius: 15px;
             text-align: center;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.4s ease-out;
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         .value-card::before {
@@ -404,7 +496,8 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.8s;
+            transition: left 0.6s;
+            will-change: left;
         }
 
         .value-card:hover::before {
@@ -412,7 +505,7 @@
         }
 
         .value-card:hover {
-            transform: translateY(-15px) scale(1.05);
+            transform: translateY(-10px) scale(1.03);
             box-shadow: 0 15px 40px rgba(44,95,45,0.3);
         }
 
@@ -420,11 +513,12 @@
             font-size: 4em;
             margin-bottom: 20px;
             display: inline-block;
-            transition: all 0.6s;
+            transition: transform 0.4s ease-out;
+            will-change: transform;
         }
 
         .value-card:hover .value-icon {
-            transform: scale(1.2) rotateZ(360deg);
+            transform: scale(1.15) rotateZ(180deg);
         }
 
         .value-card h3 {
@@ -577,12 +671,18 @@
     </style>
 </head>
 <body>
+    <!-- 语言切换按钮 -->
+    <div class="lang-switch">
+        <button class="lang-btn active" data-lang="zh" onclick="switchLanguage('zh')">中文</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+    </div>
+
     <!-- 欢迎页 -->
     <section id="welcome">
         <div class="particles" id="particles-welcome"></div>
         <div class="container">
-            <h1>生物质蒸汽项目</h1>
-            <p>变废为宝 · 绿色能源 · 助力双碳</p>
+            <h1 data-zh="恒利生物质蒸汽项目" data-en="Hengli Biomass Steam Project">生物质蒸汽项目</h1>
+            <p data-zh="变废为宝 · 绿色能源 · 助力减碳" data-en="Waste to Energy · Green Power · Carbon Reduce">变废为宝 · 绿色能源 · 助力双碳</p>
         </div>
         <div class="scroll-hint">↓</div>
     </section>
@@ -591,28 +691,30 @@
     <section id="concept">
         <div class="container">
             <div class="concept-content">
-                <h2>什么是生物质蒸汽？</h2>
-                <p style="font-size: 1.3em; color: #666; margin-bottom: 40px;">
+                <h2 data-zh="什么是生物质蒸汽？" data-en="What is Biomass Steam?">什么是生物质蒸汽？</h2>
+                <p style="font-size: 1.3em; color: #666; margin-bottom: 40px;" 
+                   data-zh="将农林废弃物等生物质资源作为燃料，通过专业锅炉燃烧产生清洁蒸汽" 
+                   data-en="Converting agricultural and forestry waste into clean steam through specialized boilers">
                     将农林废弃物等生物质资源作为燃料，通过专业锅炉燃烧产生清洁蒸汽
                 </p>
                 
                 <div class="comparison">
                     <div class="compare-box traditional">
-                        <h3>🏭 传统燃煤蒸汽</h3>
+                        <h3 data-zh="🏭 传统燃煤蒸汽" data-en="🏭 Traditional Coal Steam">🏭 传统燃煤蒸汽</h3>
                         <ul>
-                            <li>高碳排放</li>
-                            <li>空气污染严重</li>
-                            <li>不可再生资源</li>
-                            <li>环保压力大</li>
+                            <li data-zh="高碳排放" data-en="High Carbon Emissions">高碳排放</li>
+                            <li data-zh="空气污染严重" data-en="Severe Air Pollution">空气污染严重</li>
+                            <li data-zh="不可再生资源" data-en="Non-renewable Resources">不可再生资源</li>
+                            <li data-zh="环保压力大" data-en="High Environmental Pressure">环保压力大</li>
                         </ul>
                     </div>
                     <div class="compare-box biomass">
-                        <h3>🌿 生物质蒸汽</h3>
+                        <h3 data-zh="🌿 生物质蒸汽" data-en="🌿 Biomass Steam">🌿 生物质蒸汽</h3>
                         <ul>
-                            <li>近零碳排放</li>
-                            <li>清洁环保</li>
-                            <li>可再生资源</li>
-                            <li>符合双碳目标</li>
+                            <li data-zh="近零碳排放" data-en="Near Zero Carbon Emissions">近零碳排放</li>
+                            <li data-zh="清洁环保" data-en="Clean & Eco-friendly">清洁环保</li>
+                            <li data-zh="可再生资源" data-en="Renewable Resources">可再生资源</li>
+                            <li data-zh="符合SBTi目标" data-en="Aligned with SBTi Goals">符合双碳目标</li>
                         </ul>
                     </div>
                 </div>
@@ -623,36 +725,48 @@
     <!-- 流程展示 -->
     <section id="process">
         <div class="container">
-            <h2 class="process-title">从原料到蒸汽</h2>
+            <h2 class="process-title" data-zh="从原料到蒸汽" data-en="From Raw Material to Steam">从原料到蒸汽</h2>
             <div class="flow-container">
                 <div class="flow-step">
                     <div class="step-icon">🌾</div>
-                    <h3>生物质原料</h3>
-                    <p>秸秆、稻壳、木屑等<br>农林废弃物收集</p>
+                    <h3 data-zh="生物质原料" data-en="Biomass Materials">生物质原料</h3>
+                    <p>
+                        <span data-zh="秸秆、稻壳、木屑等" data-en="Straw, rice husk, sawdust">秸秆、稻壳、木屑等</span><br>
+                        <span data-zh="农林废弃物收集" data-en="Agricultural waste collection">农林废弃物收集</span>
+                    </p>
                 </div>
                 
                 <div class="arrow">→</div>
                 
                 <div class="flow-step">
                     <div class="step-icon">⚙️</div>
-                    <h3>预处理</h3>
-                    <p>破碎、干燥、筛分<br>制成标准燃料</p>
+                    <h3 data-zh="预处理" data-en="Pre-processing">预处理</h3>
+                    <p>
+                        <span data-zh="破碎、干燥、筛分" data-en="Crushing, drying, screening">破碎、干燥、筛分</span><br>
+                        <span data-zh="制成标准燃料" data-en="Standard fuel production">制成标准燃料</span>
+                    </p>
                 </div>
                 
                 <div class="arrow">→</div>
                 
                 <div class="flow-step">
                     <div class="step-icon">🔥</div>
-                    <h3>高效燃烧</h3>
-                    <p>专业生物质锅炉<br>清洁燃烧发热</p>
+                    <h3 data-zh="高效燃烧" data-en="Efficient Combustion">高效燃烧</h3>
+                    <p>
+                        <span data-zh="专业生物质锅炉" data-en="Professional biomass boiler">专业生物质锅炉</span><br>
+                        <span data-zh="清洁燃烧发热" data-en="Clean combustion">清洁燃烧发热</span>
+                    </p>
                 </div>
                 
                 <div class="arrow">→</div>
                 
                 <div class="flow-step">
                     <div class="step-icon">💨</div>
-                    <h3>蒸汽输出</h3>
-                    <p>稳定供应工业蒸汽<br>满足生产需求</p>
+                    <h3 data-zh="蒸汽输出" data-en="Steam Output">蒸汽输出</h3>
+                    <p>
+                        <span data-zh="通过专线稳定供应生物质蒸汽" data-en="Stable supply of biomass steam through dedicated lines">稳定供应工业蒸汽</span><br>
+                        <span data-zh="满足恒利绿色蒸汽需求" data-en="Meeting Hengli's Green Biomass Steam Needs">满足恒利绿色蒸汽需求</span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -662,24 +776,45 @@
     <section id="highlights">
         <div class="particles" id="particles-highlights"></div>
         <div class="container">
-            <h2 class="highlights-title">项目亮点数据</h2>
+            <h2 class="highlights-title" data-zh="项目效益展示" data-en="Project Benefits">项目效益展示</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number" data-target="10">0</div>
-                    <div class="stat-label">万吨年处理生物质量</div>
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-content">
+                        <span class="stat-number" data-target="10">0</span>
+                        <span class="stat-unit" data-zh="万吨/年" data-en="k tons/year">万吨/年</span>
+                        <div class="stat-label" data-zh="生物质处理量" data-en="Biomass Processing">生物质处理量</div>
+                        <div class="stat-desc" data-zh="年处理各类农林废弃物" data-en="Annual processing capacity">年处理各类农林废弃物</div>
+                    </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" data-target="15">0</div>
-                    <div class="stat-label">万吨年产蒸汽量</div>
+                    <div class="stat-icon">💨</div>
+                    <div class="stat-content">
+                        <span class="stat-number" data-target="60">0</span>
+                        <span class="stat-unit" data-zh="万吨/年" data-en="k tons/year">万吨/年</span>
+                        <div class="stat-label" data-zh="生物质蒸汽产量" data-en="Biomass Steam Production">生物质蒸汽产量</div>
+                        <div class="stat-desc" data-zh="稳定供应工业级蒸汽" data-en="Stable industrial steam supply">稳定供应工业级蒸汽</div>
+                    </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" data-target="8">0</div>
-                    <div class="stat-label">万吨年减排CO₂当量</div>
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-content">
+                        <span class="stat-number" data-target="-95.5">0</span>
+                        <span class="stat-unit" data-zh="%" data-en="k tons/year">%</span>
+                        <div class="stat-label" data-zh="来源于蒸汽的CO₂排放" data-en="CO₂ Emission from Steam">来源于蒸汽的CO₂排放</div>
+                        <div class="stat-desc" data-zh="结合绿电直采，实现100%绿色能源" data-en="Combined with PPA green power harvesting for 100% green energy">结合绿电直采，实现100%绿色能源</div>
+                    </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" data-target="100">0</div>
-                    <div class="stat-label">+提供就业岗位</div>
+                    <div class="stat-icon">🌱</div>
+                    <div class="stat-content">
+                        <span class="stat-number" data-target="120">0</span>
+                        <span class="stat-unit" data-zh="万吨/年" data-en="k tons/year">万吨/年</span>
+                        <div class="stat-label" data-zh="碳减排量" data-en="CO₂ Reduction">碳减排量</div>
+                        <div class="stat-desc" data-zh="相当于植树造林500万棵" data-en="Equivalent to planting 5 million trees">相当于植树造林500万棵</div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -687,65 +822,106 @@
     <!-- 社会价值 -->
     <section id="value">
         <div class="container">
-            <h2 class="value-title">社会价值</h2>
+            <h2 class="value-title" data-zh="社会价值" data-en="Social Value">社会价值</h2>
             <div class="value-grid">
                 <div class="value-card">
                     <div class="value-icon">♻️</div>
-                    <h3>变废为宝</h3>
-                    <p>将农林废弃物转化为清洁能源，解决秸秆焚烧污染问题，实现资源循环利用</p>
+                    <h3 data-zh="变废为宝" data-en="Waste to Treasure">变废为宝</h3>
+                    <p data-zh="将农林废弃物转化为清洁能源，解决秸秆焚烧污染问题，实现资源循环利用" 
+                       data-en="Converting agricultural waste into clean energy, solving straw burning pollution, achieving resource recycling">
+                        将农林废弃物转化为清洁能源，解决秸秆焚烧污染问题，实现资源循环利用
+                    </p>
                 </div>
                 <div class="value-card">
                     <div class="value-icon">🌍</div>
-                    <h3>助力双碳</h3>
-                    <p>替代化石能源，大幅降低碳排放，为国家碳达峰、碳中和目标贡献力量</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon">👥</div>
-                    <h3>带动就业</h3>
-                    <p>原料收购、运输、生产等环节创造大量就业机会，增加农民收入，促进乡村振兴</p>
-                </div>
+                    <h3 data-zh="助力减碳" data-en="Carbon Reduce">助力双碳</h3>
+                    <p data-zh="替代化石能源，大幅降低碳排放，为SBTi目标贡献力量" 
+                       data-en="Replacing fossil fuels, significantly reducing carbon emissions, contributing to SBTi target">
+                        替代化石能源，大幅降低碳排放，为SBTi目标贡献力量
+                    </p>
             </div>
         </div>
     </section>
 
     <script>
-        // 创建粒子效果
+        // 语言切换功能
+        let currentLang = 'zh';
+
+        // 检测浏览器语言
+        function detectLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            return browserLang.startsWith('zh') ? 'zh' : 'en';
+        }
+
+        // 切换语言
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // 使用 requestAnimationFrame 批量更新 DOM
+            requestAnimationFrame(() => {
+                document.querySelectorAll('[data-zh][data-en]').forEach(el => {
+                    const zhText = el.getAttribute('data-zh');
+                    const enText = el.getAttribute('data-en');
+                    el.innerHTML = lang === 'zh' ? zhText : enText;
+                });
+            });
+        }
+
+        // 页面加载时自动检测语言
+        window.addEventListener('DOMContentLoaded', () => {
+            const detectedLang = detectLanguage();
+            switchLanguage(detectedLang);
+        });
+
+        // 创建粒子效果 - 减少数量
         function createParticles(containerId, count) {
             const container = document.getElementById(containerId);
+            const fragment = document.createDocumentFragment();
+            
             for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                const size = Math.random() * 5 + 2;
+                const size = Math.random() * 4 + 2;
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                particle.style.animation = `floatParticle ${Math.random() * 10 + 15}s linear infinite`;
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                container.appendChild(particle);
+                particle.style.animationDuration = (Math.random() * 8 + 12) + 's';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                fragment.appendChild(particle);
             }
+            container.appendChild(fragment);
         }
 
-        createParticles('particles-welcome', 30);
-        createParticles('particles-highlights', 20);
+        createParticles('particles-welcome', 20);
+        createParticles('particles-highlights', 15);
 
-        // 数字滚动动画
+        // 数字滚动动画 - 优化性能
         function animateNumber(element) {
             const target = parseInt(element.getAttribute('data-target'));
-            const duration = 2000;
-            const steps = 60;
-            const stepValue = target / steps;
-            let current = 0;
+            const duration = 1500;
+            const startTime = performance.now();
             
-            const timer = setInterval(() => {
-                current += stepValue;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(progress * target);
+                
+                element.textContent = current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
                 }
-                element.textContent = Math.floor(current);
-            }, duration / steps);
+            }
+            
+            requestAnimationFrame(update);
         }
 
         // 平滑滚动
@@ -758,24 +934,26 @@
             });
         });
 
-        // 滚动动画和数字动画
+        // 滚动动画 - 使用 Intersection Observer
         const observerOptions = {
-            threshold: 0.3,
-            rootMargin: '0px 0px -100px 0px'
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    
-                    // 触发数字动画
-                    const statNumber = entry.target.querySelector('.stat-number[data-target]');
-                    if (statNumber && !statNumber.classList.contains('animated')) {
-                        statNumber.classList.add('animated');
-                        animateNumber(statNumber);
-                    }
+                    requestAnimationFrame(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // 触发数字动画
+                        const statNumber = entry.target.querySelector('.stat-number[data-target]');
+                        if (statNumber && !statNumber.classList.contains('animated')) {
+                            statNumber.classList.add('animated');
+                            animateNumber(statNumber);
+                        }
+                    });
                 }
             });
         }, observerOptions);
@@ -784,36 +962,53 @@
         document.querySelectorAll('.flow-step, .stat-card, .value-card, .compare-box').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            el.style.transition = 'all 0.6s ease-out';
             observer.observe(el);
         });
 
-        // 鼠标移动视差效果
+        // 优化鼠标移动视差效果 - 使用节流
+        let mouseMoveTimeout;
         document.addEventListener('mousemove', (e) => {
-            const moveX = (e.clientX - window.innerWidth / 2) / 50;
-            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            if (mouseMoveTimeout) return;
             
-            document.querySelectorAll('.flow-step').forEach((step, index) => {
-                step.style.transform = `translate(${moveX * (index + 1) * 0.5}px, ${moveY * (index + 1) * 0.5}px)`;
-            });
+            mouseMoveTimeout = setTimeout(() => {
+                const moveX = (e.clientX - window.innerWidth / 2) / 80;
+                const moveY = (e.clientY - window.innerHeight / 2) / 80;
+                
+                requestAnimationFrame(() => {
+                    document.querySelectorAll('.flow-step').forEach((step, index) => {
+                        const factor = (index + 1) * 0.3;
+                        step.style.transform = `translate(${moveX * factor}px, ${moveY * factor}px)`;
+                    });
+                });
+                
+                mouseMoveTimeout = null;
+            }, 16); // 约 60fps
         });
 
-        // 滚动时添加动态效果
-        let lastScroll = 0;
+        // 优化滚动效果 - 使用节流和 passive 监听
+        let scrollTimeout;
+        let ticking = false;
+
         window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            const sections = document.querySelectorAll('section');
-            
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const scrollPercent = (window.innerHeight - rect.top) / window.innerHeight;
-                    section.style.transform = `scale(${0.95 + scrollPercent * 0.05})`;
-                }
-            });
-            
-            lastScroll = currentScroll;
-        });
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const sections = document.querySelectorAll('section');
+                    
+                    sections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top < window.innerHeight && rect.bottom > 0) {
+                            const scrollPercent = Math.min((window.innerHeight - rect.top) / window.innerHeight, 1);
+                            const scale = 0.95 + scrollPercent * 0.05;
+                            section.style.transform = `scale(${scale})`;
+                        }
+                    });
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
     </script>
 </body>
 </html>
