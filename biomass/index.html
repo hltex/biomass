@@ -1,160 +1,819 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>生物质蒸汽项目 — 启动页 (纯 HTML/CSS)</title>
-<style>
-  :root{
-    --bg1:#03142b; --bg2:#06253f; --accent1:#06b6d4; --accent2:#2563eb; --muted:#9fb8cf;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;-webkit-font-smoothing:antialiased}
-  body{background:linear-gradient(180deg,var(--bg1),var(--bg2)); color:#eef7fb; -webkit-text-size-adjust:100%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生物质蒸汽项目介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  main{
-    min-height:100vh;
-    padding:20px;
-    transition:opacity .45s ease, transform .45s ease;
-  }
-  header, section, footer{max-width:720px;margin:0 auto;padding:14px}
-  header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:12px}
-  .hero h1{font-size:1.4rem;margin:0}
-  .card{background:rgba(255,255,255,0.04);border-radius:12px;padding:14px;margin-bottom:14px}
-  .badge{display:inline-block;background:rgba(255,255,255,0.06);border-radius:12px;padding:4px 8px;font-size:0.75rem;margin-right:6px}
-  ul{list-style:none;padding:0;margin:0}
-  li{background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;margin-bottom:8px}
-  h2,h3{color:#b9d8ff;margin:6px 0}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;margin-bottom:12px}
-  .stat-box{background:rgba(255,255,255,0.06);border-radius:8px;padding:10px;font-size:0.9rem}
-  .btn{display:inline-block;padding:8px 14px;border-radius:8px;background:linear-gradient(90deg,var(--accent2),var(--accent1));color:white;text-decoration:none;font-size:0.9rem;margin:4px}
-  footer{background:rgba(255,255,255,0.03);border-radius:12px;text-align:center;padding:16px;margin-top:24px}
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            overflow-x: hidden;
+            background: #f5f5f5;
+        }
 
-  /* 启动页覆盖层 */
-  .splash{
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:18px;
-    background:linear-gradient(180deg, rgba(2,6,23,0.85), rgba(4,10,30,0.85));
-    z-index:999;
-    transition:opacity .5s ease, visibility .5s ease, transform .5s ease;
-  }
-  .splash .logo-wrap{width:64vw;max-width:320px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
-  .splash img{
-    width:100%;
-    height:auto;
-    max-width:320px;
-    animation:fadein 1.2s ease forwards;
-    opacity:0;
-    transform:scale(0.95);
-  }
-  @keyframes fadein{
-    to{opacity:1;transform:scale(1);}
-  }
-  .splash .hint{font-size:13px;color:var(--muted);opacity:0.95}
-  .splash a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:inherit}
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
 
-  /* 通过锚点跳转隐藏启动页 */
-  #main:target ~ .splash{
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(-6px);
-    pointer-events:none;
-  }
+        /* 背景粒子效果 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-  .enter-btn{
-    background:linear-gradient(90deg,var(--accent2),var(--accent1));
-    color:white;padding:10px 18px;border-radius:999px;font-weight:600;display:inline-block;
-    box-shadow:0 6px 22px rgba(4,12,30,0.45);
-  }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
 
-  @media (max-width:480px){
-    .stats{grid-template-columns:1fr}
-    .splash .logo-wrap{max-width:240px}
-    header,section,footer{padding:12px}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .splash, #main:target ~ .splash { transition:none; transform:none; }
-  }
-</style>
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 欢迎页 */
+        #welcome {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        #welcome::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        #welcome h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease, glow 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        #welcome p {
+            font-size: 1.5em;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.3s both, float 3s ease-in-out infinite;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            font-size: 2em;
+            opacity: 0.7;
+        }
+
+        /* 概念介绍 */
+        #concept {
+            background: white;
+        }
+
+        .concept-content {
+            text-align: center;
+        }
+
+        .concept-content h2 {
+            font-size: 2.5em;
+            color: #2c5f2d;
+            margin-bottom: 40px;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .compare-box {
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .compare-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .compare-box:hover::before {
+            left: 100%;
+        }
+
+        .compare-box:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .traditional {
+            background: #ffebee;
+            border: 3px solid #ef5350;
+        }
+
+        .biomass {
+            background: #e8f5e9;
+            border: 3px solid #66bb6a;
+        }
+
+        .compare-box h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .compare-box ul {
+            list-style: none;
+            text-align: left;
+            font-size: 1.1em;
+            line-height: 2;
+        }
+
+        .compare-box ul li:before {
+            content: "• ";
+            color: inherit;
+            font-weight: bold;
+        }
+
+        /* 流程展示 */
+        #process {
+            background: linear-gradient(to bottom, #f5f5f5 0%, #e8f5e9 100%);
+            position: relative;
+        }
+
+        #process::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(151, 188, 98, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(151, 188, 98, 0.1) 0%, transparent 20%);
+            animation: moveBackground 20s ease-in-out infinite;
+        }
+
+        .process-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #2c5f2d;
+            margin-bottom: 60px;
+        }
+
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(151, 188, 98, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .flow-step:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .flow-step:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 15px 35px rgba(44,95,45,0.4);
+        }
+
+        .step-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: inline-block;
+            transition: all 0.5s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flow-step:hover .step-icon {
+            transform: scale(1.3) rotateY(360deg);
+        }
+
+        .flow-step h3 {
+            color: #2c5f2d;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flow-step p {
+            color: #666;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: #97bc62;
+            align-self: center;
+            animation: slideRight 2s ease-in-out infinite;
+        }
+
+        /* 数据亮点 */
+        #highlights {
+            background: linear-gradient(135deg, #1e3a20 0%, #2c5f2d 100%);
+            color: white;
+            position: relative;
+        }
+
+        #highlights::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(151, 188, 98, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(151, 188, 98, 0.2) 0%, transparent 50%);
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        .highlights-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s;
+        }
+
+        .stat-card:hover::before {
+            transform: scale(1);
+        }
+
+        .stat-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #97bc62;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            animation: countUp 2s ease-out;
+        }
+
+        .stat-card:hover .stat-number {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 社会价值 */
+        #value {
+            background: white;
+        }
+
+        .value-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #2c5f2d;
+            margin-bottom: 60px;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .value-card {
+            padding: 40px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.8s;
+        }
+
+        .value-card:hover::before {
+            left: 100%;
+        }
+
+        .value-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(44,95,45,0.3);
+        }
+
+        .value-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: all 0.6s;
+        }
+
+        .value-card:hover .value-icon {
+            transform: scale(1.2) rotateZ(360deg);
+        }
+
+        .value-card h3 {
+            font-size: 1.8em;
+            color: #2c5f2d;
+            margin-bottom: 15px;
+        }
+
+        .value-card p {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* 动画 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(151,188,98,0.5);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes slideRight {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes moveBackground {
+            0%, 100% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            #welcome h1 {
+                font-size: 2em;
+            }
+            
+            #welcome p {
+                font-size: 1.2em;
+            }
+            
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-container {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+            
+            h2 {
+                font-size: 2em !important;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <main id="main" tabindex="-1">
-    <header>
-      <div class="hero">
-        <h1>生物质蒸汽项目</h1>
-        <p style="font-size:0.9rem;color:var(--muted);">绿色 · 稳定 · 可盈利</p>
-      </div>
-      <a class="btn" href="tel:+8613800000000" aria-label="电话咨询">联系我们</a>
-    </header>
-
-    <section class="card">
-      <h2>低碳与收益兼得</h2>
-      <p>本项目通过利用当地可持续采集的生物质（农业剩余、林业副产物或能源作物）替代传统化石燃料锅炉。生命周期内预计可将二氧化碳排放降低约 <strong>95%</strong>，同时提供稳定的工业蒸汽供应与显著的燃料成本节约。</p>
-      <div>
-        <span class="badge">深蓝主题</span>
-        <span class="badge">移动优先</span>
-        <span class="badge">响应式设计</span>
-      </div>
+    <!-- 欢迎页 -->
+    <section id="welcome">
+        <div class="particles" id="particles-welcome"></div>
+        <div class="container">
+            <h1>生物质蒸汽项目</h1>
+            <p>变废为宝 · 绿色能源 · 助力双碳</p>
+        </div>
+        <div class="scroll-hint">↓</div>
     </section>
 
-    <section>
-      <h3>主要益处</h3>
-      <ul>
-        <li><strong>显著减排：</strong> 生命周期评估显示，相较于煤/天然气锅炉，CO₂ 排放可降低约 95%。</li>
-        <li><strong>能源自主与稳定：</strong> 本地化原料供给减少对外购燃料依赖，保障生产线稳定运行。</li>
-        <li><strong>经济回报：</strong> 通过燃料替代与能效提升，实现直接成本节约，并结合碳交易/补贴优化收益。</li>
-      </ul>
+    <!-- 概念介绍 -->
+    <section id="concept">
+        <div class="container">
+            <div class="concept-content">
+                <h2>什么是生物质蒸汽？</h2>
+                <p style="font-size: 1.3em; color: #666; margin-bottom: 40px;">
+                    将农林废弃物等生物质资源作为燃料，通过专业锅炉燃烧产生清洁蒸汽
+                </p>
+                
+                <div class="comparison">
+                    <div class="compare-box traditional">
+                        <h3>🏭 传统燃煤蒸汽</h3>
+                        <ul>
+                            <li>高碳排放</li>
+                            <li>空气污染严重</li>
+                            <li>不可再生资源</li>
+                            <li>环保压力大</li>
+                        </ul>
+                    </div>
+                    <div class="compare-box biomass">
+                        <h3>🌿 生物质蒸汽</h3>
+                        <ul>
+                            <li>近零碳排放</li>
+                            <li>清洁环保</li>
+                            <li>可再生资源</li>
+                            <li>符合双碳目标</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section class="card">
-      <h3>项目简介</h3>
-      <p>本项目包含：原料收集与预处理、生物质锅炉与余热回收系统、蒸汽管网与控制系统、以及排放治理与监测。系统采用模块化设计，便于不同规模厂区部署与未来扩容。</p>
-      <p>适用场景：造纸、食品加工、化工、热处理、温室农业等对蒸汽有稳定需求的行业。</p>
+    <!-- 流程展示 -->
+    <section id="process">
+        <div class="container">
+            <h2 class="process-title">从原料到蒸汽</h2>
+            <div class="flow-container">
+                <div class="flow-step">
+                    <div class="step-icon">🌾</div>
+                    <h3>生物质原料</h3>
+                    <p>秸秆、稻壳、木屑等<br>农林废弃物收集</p>
+                </div>
+                
+                <div class="arrow">→</div>
+                
+                <div class="flow-step">
+                    <div class="step-icon">⚙️</div>
+                    <h3>预处理</h3>
+                    <p>破碎、干燥、筛分<br>制成标准燃料</p>
+                </div>
+                
+                <div class="arrow">→</div>
+                
+                <div class="flow-step">
+                    <div class="step-icon">🔥</div>
+                    <h3>高效燃烧</h3>
+                    <p>专业生物质锅炉<br>清洁燃烧发热</p>
+                </div>
+                
+                <div class="arrow">→</div>
+                
+                <div class="flow-step">
+                    <div class="step-icon">💨</div>
+                    <h3>蒸汽输出</h3>
+                    <p>稳定供应工业蒸汽<br>满足生产需求</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section>
-      <h3>收益与财务要点（示例）</h3>
-      <div class="stats" role="list">
-        <div class="stat-box" role="listitem"><div>减碳量</div><div><strong>≈95% CO₂</strong></div></div>
-        <div class="stat-box" role="listitem"><div>年节省燃料成本</div><div><strong>¥1,200,000</strong></div></div>
-        <div class="stat-box" role="listitem"><div>净收益率</div><div><strong>8% - 15%</strong></div></div>
-      </div>
-      <p style="font-size:0.9rem;color:#c5d5e6;">示例模型（需现场验证）：初始投资 ¥5M - ¥30M，回收期约 4 - 8 年。</p>
+    <!-- 数据亮点 -->
+    <section id="highlights">
+        <div class="particles" id="particles-highlights"></div>
+        <div class="container">
+            <h2 class="highlights-title">项目亮点数据</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">万吨年处理生物质量</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-label">万吨年产蒸汽量</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="8">0</div>
+                    <div class="stat-label">万吨年减排CO₂当量</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">+提供就业岗位</div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section class="card">
-      <h3>核心技术亮点</h3>
-      <ul>
-        <li><strong>高效减碳：</strong> 可再生生物质燃料，显著减少温室气体排放。</li>
-        <li><strong>稳定蒸汽供应：</strong> 满足工业热能需求，提升生产连续性。</li>
-        <li><strong>经济可行：</strong> 能源费用节省 + 政策激励，实现长期回报。</li>
-      </ul>
+    <!-- 社会价值 -->
+    <section id="value">
+        <div class="container">
+            <h2 class="value-title">社会价值</h2>
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon">♻️</div>
+                    <h3>变废为宝</h3>
+                    <p>将农林废弃物转化为清洁能源，解决秸秆焚烧污染问题，实现资源循环利用</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <h3>助力双碳</h3>
+                    <p>替代化石能源，大幅降低碳排放，为国家碳达峰、碳中和目标贡献力量</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">👥</div>
+                    <h3>带动就业</h3>
+                    <p>原料收购、运输、生产等环节创造大量就业机会，增加农民收入，促进乡村振兴</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-      <p>想要我们为您定制可行性报告与收益测算？</p>
-      <a class="btn" href="tel:+8613800000000">电话咨询</a>
-      <a class="btn" href="#" style="background:none;border:1px solid rgba(255,255,255,0.12)">在线留言</a>
-      <p style="font-size:0.75rem;color:var(--muted);margin-top:10px;">© 2025 生物质蒸汽项目团队 · 移动端优先设计</p>
-    </footer>
-  </main>
+    <script>
+        // 创建粒子效果
+        function createParticles(containerId, count) {
+            const container = document.getElementById(containerId);
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 5 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particle.style.animation = `floatParticle ${Math.random() * 10 + 15}s linear infinite`;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                container.appendChild(particle);
+            }
+        }
 
-  <!-- 启动页覆盖层 -->
-  <div class="splash" role="dialog" aria-label="启动页 - 生物质蒸汽项目">
-    <div class="logo-wrap" aria-hidden="false">
-      <!-- 使用外部 logo.svg 文件 -->
-      <a href="#main" aria-label="进入网站（按回车或点击）" title="点击或按回车进入">
-        <img src="logo.svg" alt="生物质蒸汽项目 Logo">
-      </a>
-    </div>
-    <div class="hint">点击或按回车进入 · Click or press Enter to continue</div>
-  </div>
+        createParticles('particles-welcome', 30);
+        createParticles('particles-highlights', 20);
 
+        // 数字滚动动画
+        function animateNumber(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const steps = 60;
+            const stepValue = target / steps;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += stepValue;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, duration / steps);
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 滚动动画和数字动画
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // 触发数字动画
+                    const statNumber = entry.target.querySelector('.stat-number[data-target]');
+                    if (statNumber && !statNumber.classList.contains('animated')) {
+                        statNumber.classList.add('animated');
+                        animateNumber(statNumber);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // 添加观察元素
+        document.querySelectorAll('.flow-step, .stat-card, .value-card, .compare-box').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            observer.observe(el);
+        });
+
+        // 鼠标移动视差效果
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            
+            document.querySelectorAll('.flow-step').forEach((step, index) => {
+                step.style.transform = `translate(${moveX * (index + 1) * 0.5}px, ${moveY * (index + 1) * 0.5}px)`;
+            });
+        });
+
+        // 滚动时添加动态效果
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const scrollPercent = (window.innerHeight - rect.top) / window.innerHeight;
+                    section.style.transform = `scale(${0.95 + scrollPercent * 0.05})`;
+                }
+            });
+            
+            lastScroll = currentScroll;
+        });
+    </script>
 </body>
 </html>
