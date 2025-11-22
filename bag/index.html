@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>产品展示 - Coat & Bag</title>
+    <title>SOUVENIR - Coat & Bag</title>
     <style>
         * {
             margin: 0;
@@ -22,9 +22,10 @@
         .selection-page {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             position: relative;
         }
         
@@ -45,26 +46,25 @@
         }
         
         .title {
-            position: absolute;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
             color: white;
             font-size: 3em;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
+            margin-bottom: 60px;
+            text-align: center;
             opacity: 0;
             animation: fadeInDown 1s ease forwards;
         }
         
         @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
             to {
                 opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-            from {
-                transform: translateX(-50%) translateY(-30px);
+                transform: translateY(0);
             }
         }
         
@@ -76,8 +76,8 @@
         }
         
         .product-card {
-            width: 400px;
-            height: 500px;
+            width: 380px;
+            height: 520px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -131,7 +131,7 @@
         
         .product-image-wrapper {
             width: 100%;
-            height: 70%;
+            height: 65%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -151,7 +151,7 @@
         }
         
         .product-info {
-            padding: 20px 30px;
+            padding: 25px 30px 30px;
             color: white;
             text-align: center;
         }
@@ -161,23 +161,25 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .product-subtitle {
             font-size: 1em;
             opacity: 0.7;
             letter-spacing: 1px;
+            margin-bottom: 5px;
         }
         
         .view-btn {
-            margin-top: 15px;
-            padding: 12px 30px;
+            margin-top: 12px;
+            padding: 10px 28px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
             border-radius: 25px;
             color: white;
             font-weight: 600;
+            font-size: 0.9em;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
@@ -271,7 +273,13 @@
             }
             
             .title {
-                font-size: 2em;
+                font-size: 2.2em;
+                margin-bottom: 40px;
+            }
+            
+            .product-card {
+                width: 340px;
+                height: 480px;
             }
             
             .detail-image-container {
@@ -283,7 +291,7 @@
 <body>
     <!-- 选择页面 -->
     <div class="selection-page" id="selectionPage">
-        <h1 class="title">精选系列</h1>
+        <h1 class="title">SOUVENIR</h1>
         <div class="products-container">
             <div class="product-card" onclick="showDetail('coat')">
                 <div class="product-image-wrapper">
@@ -291,8 +299,7 @@
                 </div>
                 <div class="product-info">
                     <div class="product-name">Coat</div>
-                    <div class="product-subtitle">经典外套系列</div>
-                    <button class="view-btn">查看详情</button>
+                    <button class="view-btn">View Details</button>
                 </div>
             </div>
             
@@ -302,8 +309,7 @@
                 </div>
                 <div class="product-info">
                     <div class="product-name">Bag</div>
-                    <div class="product-subtitle">时尚包袋系列</div>
-                    <button class="view-btn">查看详情</button>
+                    <button class="view-btn">View Details</button>
                 </div>
             </div>
         </div>
@@ -313,7 +319,7 @@
     <div class="detail-page" id="coatDetail">
         <button class="back-btn" onclick="backToSelection()">←</button>
         <div class="detail-image-container">
-            <img src="coat.webp" alt="Coat详情" class="detail-image">
+            <img src="coat.webp" alt="Coat Details" class="detail-image">
         </div>
     </div>
     
@@ -321,7 +327,7 @@
     <div class="detail-page" id="bagDetail">
         <button class="back-btn" onclick="backToSelection()">←</button>
         <div class="detail-image-container">
-            <img src="bag.webp" alt="Bag详情" class="detail-image">
+            <img src="bag.webp" alt="Bag Details" class="detail-image">
         </div>
     </div>
     
